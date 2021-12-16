@@ -10,6 +10,7 @@ import org.example.deplacements.repository.InfirmierRepository;
 import org.example.deplacements.repository.PatientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import reactor.core.publisher.Mono;
 
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class DeplacementService {
 
     private DeplacementRepository deplacementRepository;
@@ -46,7 +48,7 @@ public class DeplacementService {
         Optional<Deplacement> deplacement = deplacementRepository.findById(id);
         DeplacementDTO deplacementDTO = null;
         if(deplacement.isPresent())
-            deplacementDTO = this.modelMapper.map(deplacement, DeplacementDTO.class);
+            deplacementDTO = this.modelMapper.map(deplacement.get(), DeplacementDTO.class);
         return deplacementDTO;
     }
 
@@ -86,7 +88,7 @@ public class DeplacementService {
         if(deplacement.isPresent()){
             Mono<Infirmier> infirmier = infirmierRepository.getInfirmierDetails(deplacement.get().getIdInfirmier());
             Mono<Patient> patient = patientRepository.getPatientDetails(deplacement.get().getIdPatient());
-            deplacementDetailsDTO = this.modelMapper.map(deplacement, DeplacementDetailsDTO.class);
+            deplacementDetailsDTO = this.modelMapper.map(deplacement.get(), DeplacementDetailsDTO.class);
             deplacementDetailsDTO.setInfirmier(infirmier.block());
             deplacementDetailsDTO.setPatient(patient.block());
         }

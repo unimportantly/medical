@@ -5,15 +5,11 @@ import fr.microservices.patients.entity.Patient;
 import fr.microservices.patients.entity.PatientInfirmier;
 import fr.microservices.patients.repository.InfirmierRepository;
 import fr.microservices.patients.repository.PatientRepository;
-import org.junit.jupiter.api.Assertions;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class PatientService {
@@ -30,7 +26,11 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public PatientInfirmier findById(String id) {
+    public Optional<Patient> findById(String id){
+        return patientRepository.findById(id);
+    }
+
+    public PatientInfirmier findDetailsById(String id) {
         Optional<Patient> p = patientRepository.findById(id);
         PatientInfirmier patientInfirmier = null;
         if(p.isPresent()) {

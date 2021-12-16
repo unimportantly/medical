@@ -11,9 +11,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class Config {
 
-   @Value("${environnement.uri}")
+    // makes use of the variable stored in the application.yml to define a url
+    @Value("${environnement.uri}")
     private String URL;
 
+    /**
+     * creates a webclient object to be used
+     * @return
+     */
     @Bean
     public WebClient webClient(){
         return WebClient.builder() // use builder to give the base object some modifications, otherwise, use create()

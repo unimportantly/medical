@@ -6,7 +6,7 @@ import fr.microservices.patients.service.PatientService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -24,15 +24,21 @@ public class PatientController {
         return service.findAll();
     }
 
-    @GetMapping("/{id}")
-    public PatientInfirmier getPatient(@PathVariable String id) {
+    @GetMapping("{id}")
+    public Optional<Patient> getPatient(@PathVariable String id) {
         return service.findById(id);
+    }
+
+    @GetMapping("/patient/{id}")
+    public PatientInfirmier getPatientDetails(@PathVariable String id) {
+        return service.findDetailsById(id);
     }
 
     @GetMapping("/infirmiers/{id}")
     public List<Patient> findAllByIdInfirmier(@PathVariable String id){
         return service.findAllByIdInfirmier(id);
     }
+
     @PostMapping()
     public Patient create(@RequestBody Patient patient){
         return service.save(patient);

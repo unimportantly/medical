@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/deplacement")
+@RequestMapping("/deplacements")
 public class DeplacementController {
 
     private DeplacementService deplacementService;
@@ -25,7 +25,7 @@ public class DeplacementController {
         return deplacementService.getAllDeplacements();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<DeplacementDTO> getDeplacement(@PathVariable String id){
         DeplacementDTO deplacementDTO = deplacementService.getDeplacement(id);
         if(deplacementDTO == null)
