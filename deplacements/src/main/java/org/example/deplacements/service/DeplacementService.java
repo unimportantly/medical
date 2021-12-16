@@ -1,6 +1,7 @@
 package org.example.deplacements.service;
 
 import org.example.deplacements.dto.DeplacementDTO;
+import org.example.deplacements.dto.DeplacementDetailsDTO;
 import org.example.deplacements.entity.Deplacement;
 import org.example.deplacements.repository.DeplacementRepository;
 import org.modelmapper.ModelMapper;
@@ -61,5 +62,9 @@ public class DeplacementService {
                 deplacementDTOList.add(this.modelMapper.map(deplacement, DeplacementDTO.class));
         });
         return deplacementDTOList;
+    }
+
+    public DeplacementDetailsDTO getDetails(String id) {
+        return new DeplacementDetailsDTO();
     }
 }

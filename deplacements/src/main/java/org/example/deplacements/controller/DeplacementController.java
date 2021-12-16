@@ -1,6 +1,7 @@
 package org.example.deplacements.controller;
 
 import org.example.deplacements.dto.DeplacementDTO;
+import org.example.deplacements.dto.DeplacementDetailsDTO;
 import org.example.deplacements.service.DeplacementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,5 +45,13 @@ public class DeplacementController {
     @GetMapping("/infirmiers/{id}")
     public List<DeplacementDTO> getNextInfirmierDeplacements(@PathVariable String id){
         return deplacementService.getNextInfirmierDeplacement(id);
+    }
+
+    @GetMapping("/deplacement/{id}")
+    public ResponseEntity<DeplacementDetailsDTO> getDetails(@PathVariable String id){
+        DeplacementDetailsDTO deplacementDetailsDTO = deplacementService.getDetails(id);
+        if(deplacementDetailsDTO == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(deplacementDetailsDTO);
     }
 }
