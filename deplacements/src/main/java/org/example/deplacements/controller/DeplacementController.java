@@ -65,4 +65,9 @@ public class DeplacementController {
     public ResponseEntity<DeplacementDTO> update(@RequestBody DeplacementDTO deplacementDTO){
         return ResponseEntity.ok(deplacementService.update(deplacementDTO));
     }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable String id){
+        deplacementService.delete(id);
+    }
 }

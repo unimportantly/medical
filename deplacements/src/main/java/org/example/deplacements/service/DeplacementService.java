@@ -102,4 +102,9 @@ public class DeplacementService {
         deplacementRepository.save(this.modelMapper.map(deplacementDTO, Deplacement.class));
         return  this.modelMapper.map(deplacementDTO, DeplacementDTO.class);
     }
+
+
+    public void delete(String id) {
+        deplacementRepository.deleteById(id);
+    }
 }
