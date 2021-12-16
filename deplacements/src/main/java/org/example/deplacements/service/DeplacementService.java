@@ -97,4 +97,9 @@ public class DeplacementService {
         deplacementRepository.save(this.modelMapper.map(deplacementDTO, Deplacement.class));
         return this.modelMapper.map(deplacementDTO, DeplacementDTO.class);
     }
+
+    public DeplacementDTO update(DeplacementDTO deplacementDTO) {
+        deplacementRepository.save(this.modelMapper.map(deplacementDTO, Deplacement.class));
+        return  this.modelMapper.map(deplacementDTO, DeplacementDTO.class);
+    }
 }

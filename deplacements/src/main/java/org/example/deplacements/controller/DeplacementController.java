@@ -60,4 +60,9 @@ public class DeplacementController {
     public ResponseEntity<DeplacementDTO> save(@RequestBody DeplacementDTO deplacementDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(deplacementService.save(deplacementDTO));
     }
+
+    @PutMapping()
+    public ResponseEntity<DeplacementDTO> update(@RequestBody DeplacementDTO deplacementDTO){
+        return ResponseEntity.ok(deplacementService.update(deplacementDTO));
+    }
 }
