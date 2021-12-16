@@ -30,4 +30,9 @@ public class DeplacementController {
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(deplacementDTO);
     }
+
+    @GetMapping("/next")
+    public List<DeplacementDTO> getNextDeplacements(){
+        return deplacementService.getNextDeplacements();
+    }
 }

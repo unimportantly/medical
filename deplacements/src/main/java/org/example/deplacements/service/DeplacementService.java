@@ -4,8 +4,12 @@ import org.example.deplacements.dto.DeplacementDTO;
 import org.example.deplacements.entity.Deplacement;
 import org.example.deplacements.repository.DeplacementRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 
+import java.time.Instant;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,5 +31,15 @@ public class DeplacementService {
         if(deplacement.isPresent())
             deplacementDTO = this.modelMapper.map(deplacement, DeplacementDTO.class);
         return deplacementDTO;
+    }
+
+    public List<DeplacementDTO> getNextDeplacements() {
+        List<DeplacementDTO> deplacementDTOList = new ArrayList<>();
+        Date date = Date.from(Instant.now());
+        deplacementRepository.findAll().forEach(deplacement -> {
+            if(deplacement.getDate().after(date))
+            deplacementDTOList.add(this.modelMapper.map(deplacement, DeplacementDTO.class));
+        });
+        return deplacementDTOList;
     }
 }
