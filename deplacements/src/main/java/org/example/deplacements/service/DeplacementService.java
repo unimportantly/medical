@@ -83,15 +83,18 @@ public class DeplacementService {
     public DeplacementDetailsDTO getDetails(String id) {
         Optional<Deplacement> deplacement = this.deplacementRepository.findById(id);
         DeplacementDetailsDTO deplacementDetailsDTO = null;
-        DeplacementDTO deplacementDTO = null;
         if(deplacement.isPresent()){
-            deplacementDTO = this.modelMapper.map(deplacement, DeplacementDTO.class);
-            Mono<Infirmier> infirmier = infirmierRepository.getInfirmierDetails(deplacementDTO.getIdInfirmier());
-            Mono<Patient> patient = patientRepository.getPatientDetails(deplacementDTO.getIdPatient());
-            deplacementDetailsDTO = this.modelMapper.map(deplacementDTO, DeplacementDetailsDTO.class);
+            Mono<Infirmier> infirmier = infirmierRepository.getInfirmierDetails(deplacement.get().getIdInfirmier());
+            Mono<Patient> patient = patientRepository.getPatientDetails(deplacement.get().getIdPatient());
+            deplacementDetailsDTO = this.modelMapper.map(deplacement, DeplacementDetailsDTO.class);
             deplacementDetailsDTO.setInfirmier(infirmier.block());
             deplacementDetailsDTO.setPatient(patient.block());
         }
         return deplacementDetailsDTO;
+    }
+
+    public DeplacementDTO save(DeplacementDTO deplacementDTO) {
+        deplacementRepository.save(this.modelMapper.map(deplacementDTO, Deplacement.class));
+        return this.modelMapper.map(deplacementDTO, DeplacementDTO.class);
     }
 }

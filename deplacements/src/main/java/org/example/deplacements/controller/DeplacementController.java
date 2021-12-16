@@ -3,6 +3,7 @@ package org.example.deplacements.controller;
 import org.example.deplacements.dto.DeplacementDTO;
 import org.example.deplacements.dto.DeplacementDetailsDTO;
 import org.example.deplacements.service.DeplacementService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,5 +54,10 @@ public class DeplacementController {
         if(deplacementDetailsDTO == null)
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(deplacementDetailsDTO);
+    }
+
+    @PostMapping()
+    public ResponseEntity<DeplacementDTO> save(@RequestBody DeplacementDTO deplacementDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(deplacementService.save(deplacementDTO));
     }
 }
