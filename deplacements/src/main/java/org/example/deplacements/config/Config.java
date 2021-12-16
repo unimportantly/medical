@@ -11,12 +11,25 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class Config {
 
+    /*
+    makes use of the variable stored in the application.yml to define a url
+    for when we want to connect to the patient microservice
+     */
     @Value("${environnement.uriPatients}")
     private String urlPatients;
 
+    /*
+    makes use of the variable stored in the application.yml to define a url
+    for when we want to connect to the infirmier microservice
+     */
     @Value("${environnement.uriInfirmiers}")
     private String urlInfirmiers;
 
+    /**
+     * creates a webclient object to be used inside the module that'll allow this microservice to
+     * communicate with others(here the patient one)
+     * @return a webclient object
+     */
     @Bean
     public WebClient webClientPatients(){
         return WebClient.builder()
@@ -25,6 +38,11 @@ public class Config {
                 .build();
     }
 
+    /**
+     * creates a webclient object to be used inside the module that'll allow this microservice to
+     * communicate with others (here the infirmier one)
+     * @return a webclient object
+     */
     @Bean
     public WebClient webClientInfirmiers(){
         return WebClient.builder()
@@ -33,6 +51,11 @@ public class Config {
                 .build();
     }
 
+    /**
+     * creates a mapper object to be used inside the module that'll allow us to transform
+     * optionals into DTOs
+     * @return a mapper object
+     */
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();

@@ -16,8 +16,9 @@ public class Config {
     private String URL;
 
     /**
-     * creates a webclient object to be used
-     * @return
+     * creates a webclient object to be used inside the module that'll allow this microservice to
+     * communicate with others
+     * @return a webclient object
      */
     @Bean
     public WebClient webClient(){
