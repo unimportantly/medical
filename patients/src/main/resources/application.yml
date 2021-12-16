@@ -1,0 +1,12 @@
+spring:
+  data:
+    mongodb:
+      database: patient
+      host: localhost
+      port: 27017
+
+server:
+  port: 8081
+
+environnement:
+  uri: http://localhost:8080
