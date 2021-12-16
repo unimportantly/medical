@@ -3,9 +3,15 @@ package org.example.deplacements.service;
 import org.example.deplacements.dto.DeplacementDTO;
 import org.example.deplacements.dto.DeplacementDetailsDTO;
 import org.example.deplacements.entity.Deplacement;
+import org.example.deplacements.entity.Infirmier;
+import org.example.deplacements.entity.Patient;
 import org.example.deplacements.repository.DeplacementRepository;
+import org.example.deplacements.repository.InfirmierRepository;
+import org.example.deplacements.repository.PatientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 import java.time.LocalTime;
@@ -17,7 +23,17 @@ import java.util.Optional;
 public class DeplacementService {
 
     private DeplacementRepository deplacementRepository;
+    private InfirmierRepository infirmierRepository;
+    private PatientRepository patientRepository;
     private ModelMapper modelMapper;
+
+
+    public DeplacementService(DeplacementRepository deplacementRepository, InfirmierRepository infirmierRepository, PatientRepository patientRepository, ModelMapper modelMapper) {
+        this.deplacementRepository = deplacementRepository;
+        this.infirmierRepository = infirmierRepository;
+        this.patientRepository = patientRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public List<DeplacementDTO> getAllDeplacements() {
         List<DeplacementDTO> deplacementDTOList = new ArrayList<>();
@@ -65,6 +81,17 @@ public class DeplacementService {
     }
 
     public DeplacementDetailsDTO getDetails(String id) {
-        return new DeplacementDetailsDTO();
+        Optional<Deplacement> deplacement = this.deplacementRepository.findById(id);
+        DeplacementDetailsDTO deplacementDetailsDTO = null;
+        DeplacementDTO deplacementDTO = null;
+        if(deplacement.isPresent()){
+            deplacementDTO = this.modelMapper.map(deplacement, DeplacementDTO.class);
+            Mono<Infirmier> infirmier = infirmierRepository.getInfirmierDetails(deplacementDTO.getIdInfirmier());
+            Mono<Patient> patient = patientRepository.getPatientDetails(deplacementDTO.getIdPatient());
+            deplacementDetailsDTO = this.modelMapper.map(deplacementDTO, DeplacementDetailsDTO.class);
+            deplacementDetailsDTO.setInfirmier(infirmier.block());
+            deplacementDetailsDTO.setPatient(patient.block());
+        }
+        return deplacementDetailsDTO;
     }
 }
