@@ -2,10 +2,8 @@ package org.example.deplacements.controller;
 
 import org.example.deplacements.dto.DeplacementDTO;
 import org.example.deplacements.service.DeplacementService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +21,13 @@ public class DeplacementController {
     @GetMapping()
     public List<DeplacementDTO> getAllDeplacements(){
         return deplacementService.getAllDeplacements();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DeplacementDTO> getDeplacement(@PathVariable String id){
+        DeplacementDTO deplacementDTO = deplacementService.getDeplacement(id);
+        if(deplacementDTO == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(deplacementDTO);
     }
 }
