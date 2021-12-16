@@ -47,10 +47,18 @@ public class DeplacementService {
         List<DeplacementDTO> deplacementDTOList = new ArrayList<>();
         Date date = Date.from(Instant.now());
         deplacementRepository.findAll().forEach(deplacement -> {
-            if(deplacement.getIdPatient().equals(id)){
-                if(deplacement.getDate().after(date))
+            if(deplacement.getIdPatient().equals(id) && deplacement.getDate().after(date))
                     deplacementDTOList.add(this.modelMapper.map(deplacement, DeplacementDTO.class));
-            }
+        });
+        return deplacementDTOList;
+    }
+
+    public List<DeplacementDTO> getNextInfirmierDeplacement(String id) {
+        List<DeplacementDTO> deplacementDTOList = new ArrayList<>();
+        Date date = Date.from(Instant.now());
+        deplacementRepository.findAll().forEach(deplacement -> {
+            if(deplacement.getIdInfirmier().equals(id) && deplacement.getDate().after(date))
+                deplacementDTOList.add(this.modelMapper.map(deplacement, DeplacementDTO.class));
         });
         return deplacementDTOList;
     }

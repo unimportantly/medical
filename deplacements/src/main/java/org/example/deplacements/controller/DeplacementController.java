@@ -40,4 +40,9 @@ public class DeplacementController {
     public List<DeplacementDTO> getNextPatientDeplacements(@PathVariable String id){
         return deplacementService.getNextPatientDeplacements(id);
     }
+
+    @GetMapping("/infirmiers/{id}")
+    public List<DeplacementDTO> getNextInfirmierDeplacements(@PathVariable String id){
+        return deplacementService.getNextInfirmierDeplacement(id);
+    }
 }
